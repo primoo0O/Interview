@@ -1,31 +1,39 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <title>Interview</title>
   <link rel="stylesheet" href="interview.css" />
 </head>
-
 <body>
 
   <div class="Interview-container">
-    <button class="Interview-btn">INTERVIEW</button>
+    <button class="Interview" id="interview">INTERVIEW</button>
   </div>
 
-  <div class="Interview-modal-content">
+  <div class="Interview-modal-content" id="interview-modal-content">
     <span class="Interview-close">&times;</span>
-    <h2>Are you ready to start Answering some Interviews Questions?</h2>
-      <div class="Interview-questions">
-        <p id="Interview_q"></p>
-      </div>
 
-      <div class="Interview-buttons">
-        <button class="btn-primary">Yes</button>
-        <button class="btn-primary">No</button>
-      </div>
+    <!-- ADDED id so JS can control text/visibility -->
+    <h2 id="interview-title">Are you ready to start Answering some Interviews Questions?</h2>
+
+    <div class="Interview-questions">
+      <!-- Kept but we’ll hide it in JS so there’s no duplicate text -->
+      <p id="Interview_q"></p>
+    </div>
+
+    <div class="Interview-buttons">
+      <button class="btn-primary" id="yes-btn">Yes</button>
+      <button class="btn-primary" id="no-btn">No</button>
+    </div>
+
+    <div class="choose-difficulty" style="display:none;">
+      <label id="question-title" for="difficulty">Choose Difficulty:</label>
+      <button class="btn-difficulty" id="easy-btn">Easy</button>
+      <button class="btn-difficulty" id="medium-btn">Medium</button>
+      <button class="btn-difficulty" id="hard-btn">Hard</button>
+    </div>
   </div>
 
 </body>
 <script src="interview.js"></script>
-
 </html>

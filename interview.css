@@ -1,5 +1,15 @@
+/* ---------- Theme ---------- */
+:root {
+  --brand: #5bb450;
+  --accent: #ffcd33;
+  --text: #333;
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; }
+
 body {
-  background-color: #5bb450;
+  background-color: var(--brand);
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -7,98 +17,281 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-.Interview-btn {
+/* ---------- Trigger Button ---------- */
+.Interview {
   height: 60px;
-  width: 100px;
+  width: 140px;
   font-size: 15px;
-  font-weight: bold;
-  border-radius: 10px;
+  font-weight: 800;
+  letter-spacing: .5px;
+  border-radius: var(--radius);
   border: none;
   cursor: pointer;
-  font-family: sans-serif;
-  color: #5bb450;
+  color: var(--brand);
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(0,0,0,.12);
+  transition: transform .15s ease, box-shadow .2s ease, opacity .2s ease;
+  will-change: transform;
 }
-
-.Interview-btn:hover {
-  background-color: #3d8b31;
-  color: white;
-  transition: 0.3s;
+.Interview:hover {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 10px 28px rgba(0,0,0,.18);
 }
+.Interview:active { transform: translateY(0) scale(.98); }
+.Interview:focus-visible { outline: 3px solid rgba(255,255,255,.9); outline-offset: 2px; }
 
+/* ---------- Modal ---------- */
 .Interview-modal-content {
-  height: 300px;
-  width: 400px;
-  background-color: white;
-  position: absolute;
-  border-radius: 10px;
-  display: flex;
-  font-family: Arial, Helvetica, sans-serif;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  width: min(92vw, 480px);
+  min-height: 340px;
+  background-color: #fff;
+  border-radius: var(--radius);
+  display: none;                 /* base: hidden */
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 20px;
+  padding: 22px 20px 18px;
   text-align: center;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  display: none;
+  box-shadow: 0 20px 50px rgba(0,0,0,.25);
+  z-index: 999;
 }
 
-.Interview-modal-content h2 {
-  margin: 0;
-  padding: 0;
-  font-size: 25px;
-  margin-bottom: 20px;
-  font-weight: bold;
-  color: #333;
-}
-
-.Interview-questions {
-  margin-top: 65px;
+/* Open/close states controlled by JS via classes */
+.Interview-modal-content.is-open {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
+  animation: modalPop .35s ease both;
+}
+.Interview-modal-content.is-closing {
+  display: flex;
+  animation: fadeOut .25s ease both;
 }
 
+@keyframes modalPop {
+  0%   { opacity: 0; transform: translate(-50%,-54%) scale(.96); }
+  100% { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+}
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+@keyframes fadeSlideIn {
+  0%   { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Title / Question (the <h2 id="interview-title">) */
+.Interview-modal-content h2 {
+  margin: 0 0 14px;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.25;
+}
+
+/* ---------- Close (X) ---------- */
 .Interview-close {
   position: absolute;
   top: 10px;
-  right: 10px;
-  font-size: 20px;
-  font-weight: bold;
+  right: 12px;
+  font-size: 22px;
+  font-weight: 800;
   cursor: pointer;
   color: grey;
   font-style: normal;
+  transition: transform .2s ease, color .2s ease;
+  user-select: none;
+}
+.Interview-close:hover { color: #000; transform: scale(1.15); }
+
+/* ---------- Question Area ---------- */
+.Interview-questions {
+  margin-top: 8px;
+  width: 100%;
+  min-height: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  gap: 8px;
+  padding: 0 6px;
+}
+#Interview_q { margin: 0; }
+
+/* Hint panel */
+.hint-box {
+  display: none;                /* toggled by JS */
+  width: 100%;
+  text-align: left;
+  background: #fffbe6;
+  border: 1px solid #ffe08a;
+  color: #5c4a00;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 14px;
+  line-height: 1.45;
+  box-shadow: 0 4px 12px rgba(0,0,0,.06);
+  animation: fadeSlideIn .3s ease both;
+}
+.hint-box ul {
+  margin: 8px 0 0 18px;
+  padding: 0;
 }
 
-.Interview-cl:hover {
-  color: black;
-  transition: 0.3s;
-  transform: scale(1.5);
+/* ---------- Buttons ---------- */
+.btn-primary,
+.btn-secondary {
+  height: 46px;
+  min-width: 120px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 800;
+  transition: transform .15s ease, box-shadow .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+  box-shadow: 0 6px 16px rgba(0,0,0,.12);
 }
 
 .btn-primary {
-  height: 50px;
-  width: 100px;
-  background-color: #ffcd33;
+  background-color: var(--accent);
+  color: var(--text);
   border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: bold;
-  color: #333;
-  transition: 0.3s;
 }
-
 .btn-primary:hover {
   background-color: #f3b800;
-  transform: scale(1.05);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0,0,0,.18);
 }
+.btn-primary:active { transform: translateY(0) scale(.98); }
+.btn-primary:focus-visible { outline: 3px solid rgba(0,0,0,.25); outline-offset: 2px; }
+
+.btn-secondary {
+  background: #fff;
+  color: var(--brand);
+  border: 2px solid #e3f1e1;
+}
+.btn-secondary:hover {
+  background: #f6fff5;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0,0,0,.12);
+}
+.btn-secondary:active { transform: translateY(0) scale(.98); }
+.btn-secondary:focus-visible { outline: 3px solid rgba(0,0,0,.25); outline-offset: 2px; }
 
 .Interview-buttons {
   display: flex;
+  gap: 10px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ---------- Difficulty Chips ---------- */
+.choose-difficulty {
+  margin-top: 16px;
+  display: none;                 /* JS toggles to flex */
   align-items: center;
-  justify-content: space-between;
-  width: 60%;
-  margin-top: -50px;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+#question-title {
+  font-weight: 700;
+  color: var(--text);
+  margin-right: 6px;
+}
+.btn-difficulty {
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  background: #f3f7f2;
+  color: var(--brand);
+  font-weight: 800;
+  border: 1px solid rgba(0,0,0,.06);
+  cursor: pointer;
+  transition: transform .15s ease, background .2s ease, box-shadow .2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,.06);
+}
+.btn-difficulty:hover {
+  transform: translateY(-1px);
+  background: #e8f4e6;
+  box-shadow: 0 6px 16px rgba(0,0,0,.12);
+}
+.btn-difficulty:active { transform: translateY(0) scale(.98); }
+
+/* Stagger-in when the difficulty row appears */
+.choose-difficulty .btn-difficulty { animation: chipUp .3s ease both; }
+.choose-difficulty .btn-difficulty:nth-of-type(1) { animation-delay: .02s; }
+.choose-difficulty .btn-difficulty:nth-of-type(2) { animation-delay: .06s; }
+.choose-difficulty .btn-difficulty:nth-of-type(3) { animation-delay: .10s; }
+
+@keyframes chipUp {
+  0% { opacity: 0; transform: translateY(6px) scale(.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ---------- Interactive Completion Panel ---------- */
+.completion-panel {
+  margin-top: 8px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeSlideIn .35s ease both;
+}
+.completion-meta {
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 2px;
+}
+.completion-badge {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #e8f4e6;
+  color: #2d6a2d;
+  font-weight: 800;
+  border: 1px solid rgba(0,0,0,.06);
+  margin-top: 6px;
+}
+.completion-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+/* ---------- Confetti ---------- */
+.confetti-bit {
+  position: absolute;
+  width: 8px;
+  height: 12px;
+  border-radius: 2px;
+  opacity: .9;
+  pointer-events: none;
+}
+@keyframes confettiFall {
+  0%   { transform: translateY(-10px) rotate(0deg); opacity: 0; }
+  10%  { opacity: 1; }
+  100% { transform: translateY(240px) rotate(360deg); opacity: 0; }
+}
+
+/* ---------- Reduce Motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .Interview,
+  .btn-primary,
+  .btn-secondary,
+  .btn-difficulty,
+  .Interview-close,
+  .Interview-modal-content,
+  .completion-panel,
+  .confetti-bit,
+  .hint-box {
+    transition: none !important;
+    animation: none !important;
+  }
 }
